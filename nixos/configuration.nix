@@ -8,6 +8,8 @@ in
     ../modules/core-configuration.nix
   ];
 
+  system.stateVersion = "24.05";
+
   users.users.${cfg.username} = {
       isNormalUser = true;
       extraGroups = [ "sudo" ] 
