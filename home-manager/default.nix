@@ -4,6 +4,7 @@
     imports = [
        ../modules/home-manager/programs/zsh-shell.nix
     ];
+    
     home.stateVersion = "24.05";
 
     programs = {
@@ -74,30 +75,4 @@
     #   #          ];
     #   #        })
     #   #      ] else [ ])
-
-    # users.users.${cfg.username} = {
-    #   #isNormalUser = true;
-    #   #extraGroups = [ "sudo" ] 
-    #   #++ ifTheyExist [
-    #   #  "wheel"
-    #   #  "networkmanager" 
-    #   #  "docker"
-    #   #  "podman"
-    #   #  "git"
-    #   #];
-    #   description = cfg.fullname;
-    #   #email = cfg.email;
-    # };
-
-
-    #homeManagerModules.home-manager.users.${cfg.username} = {
-    #   programs.alacritty = profiles.overrides.dotfiles.alacritty.settings;
-    #   programs.git = profiles.overrides.dotfiles.git.settings;
-    #   programs.ssh = {
-    #     enable = true;
-    #     keys = profiles.overrides.dotfiles.ssh.keys;
-    #   };
-    #};
-
-  #};
 }
