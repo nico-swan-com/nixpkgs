@@ -5,9 +5,6 @@
     zsh = {
       enable = true;
       enableCompletion = true;
-      #enableFzfCompletion = true;
-      #enableFzfGit = true;
-      #enableFzfHistory = true;
     };
   };
 
@@ -101,6 +98,5 @@ environment.systemPackages = with pkgs; [
       cmatrix
 
     ];    
-#};
 
 }

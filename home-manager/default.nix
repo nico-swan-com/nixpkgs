@@ -4,7 +4,7 @@
     imports = [
        ../modules/home-manager/programs/zsh-shell.nix
     ];
-    
+
     home.stateVersion = "24.05";
 
     programs = {
@@ -22,11 +22,11 @@
         };
       };
 
-      direnv = {
-        enable = true;
-        enableZshIntegration = true; # see note on other shells below
-        nix-direnv.enable = true;
-      };
+      # direnv = {
+      #   enable = true;
+      #   enableZshIntegration = true; # see note on other shells below
+      #   nix-direnv.enable = true;
+      # };
 
       starship = {
         enable = true;
