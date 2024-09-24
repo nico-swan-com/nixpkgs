@@ -20,7 +20,7 @@ let
   # The config files for this system.
   configuration = if darwin then ../nix-darwin/configuration.nix else ../nixos/configuration.nix ;
   homeManager = ../home-manager/default.nix;
-  
+
   # NixOS vs nix-darwin functionst
   systemFunc = if darwin then inputs.nix-darwin.lib.darwinSystem else nixpkgs.lib.nixosSystem;
   homeManagerModules = if darwin then inputs.home-manager.darwinModules else inputs.home-manager.nixosModules;
@@ -49,7 +49,6 @@ systemFunc rec {
     {
       nixpkgs.overlays = overlays;
       nixpkgs.config.allowUnfree = true;
-      services.nix-daemon.enable = true;
       nix = {
         settings = {
           experimental-features = "nix-command flakes";

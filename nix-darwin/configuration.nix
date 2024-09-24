@@ -5,6 +5,7 @@
     ../modules/core-configuration.nix
     ./macos-settings.nix 
   ];
+  services.nix-daemon.enable = true;
   nixpkgs.hostPlatform = "aarch64-darwin";
   system.stateVersion = 5;
 
