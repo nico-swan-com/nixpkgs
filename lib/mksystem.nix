@@ -20,17 +20,18 @@ let
   # The config files for this system.
   configuration = if darwin then ../nix-darwin/configuration.nix else ../nixos/configuration.nix ;
   homeManager = ../home-manager/default.nix;
+  
   # NixOS vs nix-darwin functionst
   systemFunc = if darwin then inputs.nix-darwin.lib.darwinSystem else nixpkgs.lib.nixosSystem;
   homeManagerModules = if darwin then inputs.home-manager.darwinModules else inputs.home-manager.nixosModules;
   userHomeDirectory = if darwin then "/Users/${username}" else "/home/${username}";
 
   cfg = {
-     username = username;
-     fullname = fullname; 
-     email = email; 
-     locale = locale;
-     timezone = timezone;
+    username = username;
+    fullname = fullname; 
+    email = email; 
+    locale = locale;
+    timezone = timezone;
   };
   specialArgs = { inherit nixpkgs inputs cfg; };
 

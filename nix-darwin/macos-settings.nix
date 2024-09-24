@@ -19,7 +19,7 @@
       #     _HIHideMenuBar = true;
       #   };
 
-      screencapture.location = "/Users/${cfg.username}/";
+      screencapture.location = "/Users/${cfg.username}/Documents/Captures";
 
       dock = {
          autohide = false;

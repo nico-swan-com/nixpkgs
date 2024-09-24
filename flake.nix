@@ -21,5 +21,9 @@
     {
       #mkSystem = mkSystem;
       mkSystem = import lib/mksystem.nix;
+
+      HomeManagerModules = {
+          zsh-shell = import modules/home-manager/programs/zsh-shell;
+      };
     };
 }
