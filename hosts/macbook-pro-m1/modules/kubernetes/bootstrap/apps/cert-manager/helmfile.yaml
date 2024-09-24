@@ -1,0 +1,24 @@
+repositories:
+  # Load Balancers
+  - name: jetstack 
+    url: https://charts.jetstack.io  
+
+releases: 
+  - name: cert-manager
+    namespace: cert-manager
+    chart: jetstack/cert-manager
+    version: 1.15.3
+    timeout: 600
+    labels:
+      app: cert-manager
+      tier: infrastructure
+    values:
+      - values-cert-manager.yaml
+    hooks:
+    - events: ["postsync"]
+      showlogs: true
+      command: kubectl
+      args:
+        - apply
+        - -f
+        - cert-manager-issuers.yaml    

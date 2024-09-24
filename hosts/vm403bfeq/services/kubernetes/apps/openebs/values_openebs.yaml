@@ -1,0 +1,17 @@
+engines:
+  replicated:
+    mayastor: 
+      enabled: false
+  local:
+    zfs:
+      enabled: false
+    lvm: 
+      enabled: false
+zfs-localpv:
+  enabled: false
+lvm-localpv: 
+  enabled: false
+localpv-provisioner:
+  hostpathClass:
+    basePath: /data/openebs/local
+    isDefaultClass: true 

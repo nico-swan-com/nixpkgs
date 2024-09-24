@@ -1,0 +1,22 @@
+replicaCount: 1
+image:
+  repository: containous/whoami
+  tag: latest
+service:
+  type: ClusterIP
+  port: 80
+ingress:
+  enabled: true
+  # annotations:
+  #   traefik.ingress.kubernetes.io/router.entrypoints: web
+  #   # cert-manager.io/cluster-issuer: letsencrypt-traefik-prod
+  #   #   traefik.ingress.kubernetes.io/router.entrypoints: websecure
+  #   #   traefik.ingress.kubernetes.io/router.tls: "true"
+  # hosts:
+  #   - host: whoami.production.cygnus-labs.com
+  #     paths: 
+  #       - /
+    # tls:
+    #   - secretName: whoami-cert
+    #     hosts:
+    #       - whoami.production.cygnus-labs.com   

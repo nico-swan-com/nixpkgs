@@ -1,0 +1,24 @@
+repositories:
+  # Load Balancers
+  - name: jetstack 
+    url: https://charts.jetstack.io  
+
+releases: 
+  - name: trust-manager
+    namespace: cert-manager
+    chart: jetstack/trust-manager
+    version: 0.12.0
+    atomic: true
+    timeout: 300
+    labels:
+      app: trust-manager
+      tier: infrastructure
+    hooks:
+    - events: ["postsync"]
+      showlogs: true
+      command: kubectl
+      args:
+        - apply
+        - -f
+        - trust-manager-bundle.yaml    
+          

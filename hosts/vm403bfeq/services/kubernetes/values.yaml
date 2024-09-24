@@ -1,0 +1,18 @@
+# domain: "cygnus-labs.com"
+# allowed_user: "nicoswan@gmail.com"
+# acme_email: "nico.swan@cygnus-labs.com"
+
+global:
+  imagePullPolicy: IfNotPresent
+  ingressClass: nginx
+
+# nfsSubdirProvisioner:
+#   imageTags:
+#     provisioner: v4.0.2
+#   host:
+#     server: "" #--Host of your NFS Server
+#     path: "" #--Path of your NFS Mount
+#   reclaimPolicy: Retain
+#   isDefault: true
+#   replicaCount: 
+

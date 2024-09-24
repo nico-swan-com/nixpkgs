@@ -1,0 +1,10 @@
+repositories:
+  - name: containous
+    url: https://containous.github.io/traefik-helm-chart
+
+releases:
+  - name: whoami
+    namespace: default
+    chart: containous/whoami
+    values:
+      - values-whoami.yaml    

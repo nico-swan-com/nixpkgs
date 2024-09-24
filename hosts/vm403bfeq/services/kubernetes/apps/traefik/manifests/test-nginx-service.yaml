@@ -1,0 +1,124 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: testapp1-deployment
+  namespace: testing
+  labels:
+    app: testapp1
+spec:
+  selector:
+    matchLabels:
+      app: testapp1
+  replicas: 1 
+  template:
+    metadata:
+      labels:
+        app: testapp1
+    spec:
+      containers:
+      - name: testapp1-container
+        image: nicoswan/nginx-tester:0.0.1
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name:  testapp1
+  namespace: testing
+spec:
+  selector:
+    app:  testapp1
+  type:  ClusterIP
+  ports:
+  - name:  http
+    port:  80
+    targetPort: 80
+
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+ name: cloudflare-api-token-secret
+type: Opaque
+stringData:
+ api-token: <API Token>
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+ name: le-example-dns
+ namespace: whoami
+spec:
+ acme:
+   email: user@example.com
+   # We use the staging server here for testing to avoid hitting
+   server: https://acme-staging-v02.api.letsencrypt.org/directory
+   privateKeySecretRef:
+     # if not existing, it will register a new account and stores it
+     name: example-issuer-account-key
+   solvers:
+     - dns01:
+         cloudflare:
+           apiTokenSecretRef:
+             name: cloudflare-api-token-secret
+             key: api-token
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+ name: whoami
+ namespace: whoami
+ annotations:
+   cert-manager.io/issuer: "le-example-dns"
+spec:
+ tls:
+   - hosts:
+       - whoami.example.com
+     secretName: tls-whoami-ingress-dns
+ rules:
+   - host: whoami.example.com
+     http:
+       paths:
+         - path: /
+           pathType: Prefix
+           backend:
+             service:
+               name: whoami
+               port:
+                 name: web
+
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: testapp
+  namespace: testing
+  annotations:
+    # (Optional): Annotations for the Ingress Controller
+    # ---
+    # -- entrypoint and tls configurations
+    #cert-manager.io/cluster-issuer: "letsencrypt-traefik"
+    traefik.ingress.kubernetes.io/router.entrypoints: web, websecure
+    # ---
+    # -- optional middlewares
+    # traefik.ingress.kubernetes.io/router.middlewares:your-middleware@kubernetescrd
+    # ---
+spec:
+  # tls:
+  # - hosts:
+  #   - testapp.services.production.cygnus-labs.com
+  #   secretName: letsencrypt-traefik-prod
+  rules:
+  - host: "testapp1.services.cygnus-labs.com"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: testapp1 
+            port:
+              number: 80

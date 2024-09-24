@@ -1,0 +1,57 @@
+additionalArguments:
+  - "--log.level=DEBUG"
+  #- "--serverstransport.insecureskipverify=true"
+  #- "--api.insecure=true"  # Enable the dashboard in insecure mode
+  #- "--api.dashboard=true" # Enable the dashboard
+  - "--providers.kubernetescrd"
+  #- "--providers.kubernetesgateway=true"
+  
+  # - "--certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare"
+  # - "--certificatesresolvers.cloudflare.acme.email=nico.swan@cygnus-labs.com"
+  # - "--certificatesresolvers.cloudflare.acme.dnschallenge.resolvers=1.1.1.1"
+  # - "--certificatesresolvers.cloudflare.acme.storage=/ssl-certs/acme-cloudflare.json"
+
+#hostNetwork: true
+
+# ports:
+#   web:
+#     port: 80
+#     exposedPort: 80
+#   websecure:
+#     port: 443
+#     exposedPort: 443
+
+# ports:
+#   web:
+#     port: 10080
+#     exposedPort: 10080
+#   websecure:
+#     port: 10443
+#     exposedPort: 10443
+
+# # Persistent Storage
+# persistence:
+#   enabled: true
+#   name: ssl-certs
+#   size: 1Gi
+#   path: /ssl-certs
+
+# deployment:
+#   initContainers:
+#     # The "volume-permissions" init container is required if you run into permission issues.
+#     # Related issue: https://github.com/containous/traefik/issues/6972
+#     - name: volume-permissions
+#       image: busybox:1.36.1
+#       command: ["sh", "-c", "chmod -Rv 600 /ssl-certs/*"]
+#       volumeMounts:
+#         - name: ssl-certs
+#           mountPath: /ssl-certs
+
+# ingressRoute:
+#   dashboard:
+#     enabled: true
+#   healthcheck:
+#     enabled: true
+ingressClass:
+  enabled: true
+  isDefaultClass: true

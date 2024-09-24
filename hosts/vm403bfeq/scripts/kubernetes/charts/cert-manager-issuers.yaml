@@ -1,0 +1,60 @@
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-traefik-prod
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: nico.swan@cygnus-labs.com
+    privateKeySecretRef:
+      name: letsencrypt-traefik-prod
+    solvers:
+    - http01:
+        ingress:
+          class: traefik
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-traefik-staging
+spec:
+  acme:
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: nico.swan@cygnus-labs.com
+    privateKeySecretRef:
+      name: letsencrypt-traefik-staging
+    solvers:
+    - http01:
+        ingress:
+          class: traefik
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-nginx-prod
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: nico.swan@cygnus-labs.com
+    privateKeySecretRef:
+      name: letsencrypt-nginx-prod
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-nginx-staging
+spec:
+  acme:
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: nico.swan@cygnus-labs.com
+    privateKeySecretRef:
+      name: letsencrypt-nginx-staging
+    solvers:
+    - http01:
+        ingress:
+          class: nginx

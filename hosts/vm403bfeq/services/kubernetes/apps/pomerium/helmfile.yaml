@@ -1,0 +1,108 @@
+repositories:
+  - name: pomerium
+    url: https://helm.pomerium.io  
+  - name: incubator
+    url: https://charts.helm.sh/incubator 
+  - name: dniel
+    url: https://dniel.github.io/charts 
+
+releases:
+
+
+
+  - name: traefik-pomerium-auth-middleware
+    namespace: kube-system
+    chart: incubator/raw
+    installed: {{ exec "./do.sh" (list "testTraefikCRDExists") | trim }}
+    values:
+      - resources:
+          - apiVersion: traefik.containo.us/v1alpha1
+            kind: Middleware
+            metadata:
+              name: pomerium-auth-middleware
+            spec:
+              forwardAuth:
+                address: "https://pomerium-proxy/?uri=https://whoami.production.cygnus-labs.com"
+                trustForwardHeader: true
+                authResponseHeaders:
+                  - x-pomerium-jwt-assertion
+                  - x-pomerium-claim-email
+                tls:
+                  insecureSkipVerify: true
+  
+  - name: pomerium
+    namespace: pomerium
+    chart: pomerium/pomerium
+    version: 8.5.1
+    atomic: true
+    needs:
+      - traefik/traefik
+    values:
+      - image:
+          tag: master
+          pullPolicy: "Always"
+      - config:
+          rootDomain: production.cygnus-labs.com
+          generateTLS: true #need to set true, Traefik will try to talk over TLS even if this is false. (bug helmfile)
+          insecure: false
+          extraOpts:
+            jwt_claims_headers: email
+          policy:
+            # Auth Forward Mode Policy
+            - from: "https://whoami.production.cygnus-labs.com"
+              to: "http://whoami.whoami.svc"
+              allowed_users:
+                - "{{ .Values.allowed_user }}"
+              preserve_host_header: true
+            # Proxy Mode Policy
+            - from: "https://whoamiproxy.production.cygnus-labs.com"
+              to: "http://whoamiproxy.whoami.svc"
+              allowed_users:
+                - "{{ .Values.allowed_user }}"
+              preserve_host_header: true
+      # - authenticate:
+      #     idp:
+      #       provider: "github"
+      #       clientID: ""
+      #       clientSecret: ""
+      - forwardAuth:
+          enabled: true
+          internal: true
+      - ingress:
+          hosts:
+            - "whoamiproxy.production.cygnus-labs.com"
+          enabled: true
+          annotations:
+            cert-manager.io/cluster-issuer: letsencrypt-prod
+            traefik.ingress.kubernetes.io/router.entrypoints: websecure
+            traefik.ingress.kubernetes.io/router.tls: "true"
+          secretName: pomerium-ingress-tls
+
+  - name: whoami
+    namespace: whoami
+    chart: dniel/whoami
+    atomic: true
+    installed: true
+    values:
+      - ingress:
+          enabled: true
+          annotations:
+            cert-manager.io/cluster-issuer: letsencrypt-prod
+            traefik.ingress.kubernetes.io/router.entrypoints: websecure
+            traefik.ingress.kubernetes.io/router.tls: "true"
+            traefik.ingress.kubernetes.io/router.middlewares: "kube-system-pomerium-auth-middleware@kubernetescrd"
+          hosts:
+            - host: "whoami.production.cygnus-labs.com"
+              paths: ["/"]
+          tls:
+            - secretName: whoami-cert
+              hosts:
+                - "whoami.production.cygnus-labs.com"
+  - name: whoamiproxy
+    namespace: whoami
+    chart: dniel/whoami
+    atomic: true
+    installed: true
+    values:
+      - ingress:
+          enabled: false

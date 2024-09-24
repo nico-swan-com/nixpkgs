@@ -1,0 +1,27 @@
+repositories:
+  # Load Balancers
+  - name: metallb 
+    url: https://metallb.github.io/metallb
+
+releases: 
+  - name: metallb
+    namespace: metallb-system
+    chart: metallb/metallb
+    version: 0.14.8
+    atomic: true
+    timeout: 300
+    labels:
+      app: metallb
+      tier: infrastructure
+    values:
+      - values-metallb.yaml  
+    hooks:
+    #--This hook ensures that the MetalLB address pool
+    #--is defined after helm has synced the release
+    - events: ["cleanup"]
+      showlogs: true
+      command: kubectl
+      args: 
+        - apply
+        - -f
+        - metallb-pool.yaml

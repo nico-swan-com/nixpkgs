@@ -1,0 +1,3 @@
+{
+  imports = [ ./secrets.sops.nix ];
+}
