@@ -5,9 +5,9 @@
     zsh = {
       enable = true;
       enableCompletion = true;
-      enableFzfCompletion = true;
-      enableFzfGit = true;
-      enableFzfHistory = true;
+      #enableFzfCompletion = true;
+      #enableFzfGit = true;
+      #enableFzfHistory = true;
     };
   };
 

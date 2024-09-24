@@ -8,6 +8,15 @@
   nixpkgs.hostPlatform = "aarch64-darwin";
   system.stateVersion = 5;
 
+  programs = {
+    zsh = {
+      enableFzfCompletion = true;
+      enableFzfGit = true;
+      enableFzfHistory = true;
+    };
+  };
+
+
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
 
