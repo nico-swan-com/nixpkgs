@@ -8,6 +8,11 @@ in
     ../modules/core-configuration.nix
   ];
 
+  programs.fzf = {
+    fuzzyCompletion = true;
+    keybindings = true;
+  };
+
   users.users.${cfg.username} = {
       isNormalUser = true;
       extraGroups = [ "sudo" ] 
@@ -26,8 +31,8 @@ in
     ncdu # disk usage uitls   
     rmlint # remove duplicate file
     rsync # fast copy
-    # rclone # fast copy to cloud providers like minio
-    # ntfy # terminal notification 
+    rclone # fast copy to cloud providers like minio
+    ntfy # terminal notification 
 
     # iotop # io monitoring
     # iftop # network monitoring

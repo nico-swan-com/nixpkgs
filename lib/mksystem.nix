@@ -1,16 +1,15 @@
 # This function creates a NixOS or NixDarwin system based 
 { nixpkgs, inputs, outputs, lib, home-manager, nix-darwin, ... }:
 name:
-{ system 
-, username 
+{ system
+, username
 , fullname
 , email
 , locale
 , timezone
-, darwin ? false
-, homeManagerModules? [ ]
+, extraHMModules ? [ ]
 , extraModules ? [ ]
-, overlays? [ ]
+, overlays ? [ ]
 }:
 
 let
@@ -18,7 +17,7 @@ let
   pkgs = nixpkgs;
 
   # The config files for this system.
-  configuration = if darwin then ../nix-darwin/configuration.nix else ../nixos/configuration.nix ;
+  configuration = if darwin then ../nix-darwin/configuration.nix else ../nixos/configuration.nix;
   homeManager = ../home-manager/default.nix;
 
   # NixOS vs nix-darwin functionst
@@ -28,12 +27,13 @@ let
 
   cfg = {
     username = username;
-    fullname = fullname; 
-    email = email; 
+    fullname = fullname;
+    email = email;
     locale = locale;
     timezone = timezone;
+    isDarwin = darwin;
   };
-  specialArgs = { inherit nixpkgs inputs cfg; };
+  specialArgs = { inherit nixpkgs inputs cfg extraHMModules; };
 
 in
 systemFunc rec {
@@ -41,10 +41,10 @@ systemFunc rec {
   inherit system;
 
   modules = [
-    (if !darwin then { 
+    (if !darwin then {
       i18n.defaultLocale = lib.mkDefault locale;
       time.timeZone = lib.mkDefault timezone;
-     } else { })
+    } else { })
 
     {
       nixpkgs.overlays = overlays;
@@ -68,12 +68,13 @@ systemFunc rec {
 
     configuration
 
-    homeManagerModules.home-manager {
-     home-manager = {
-       useGlobalPkgs = true;
-       extraSpecialArgs = specialArgs;
-       users.${username} = import homeManager;
-     };
+    homeManagerModules.home-manager
+    {
+      home-manager = {
+        useGlobalPkgs = true;
+        extraSpecialArgs = specialArgs;
+        users.${username} = import homeManager;
+      };
     }
 
     # We expose some extra arguments so that our modules can parameterize

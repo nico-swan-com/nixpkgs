@@ -1,5 +1,5 @@
 {
-  description = "Nico Swan user configuration";
+  description = "Nico Swan nixpkgs custom modules collection and tools";
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager";
@@ -10,20 +10,8 @@
   };
 
   outputs = { self, nixpkgs, home-manager, nix-darwin } @inputs:
-    let  
-      #inherit (self) outputs;
-      #inherit (nixpkgs) lib;
-
-      #mkSystem = import lib/mksystem.nix {
-      #   inherit nixpkgs outputs inputs lib home-manager nix-darwin; 
-      #};
-    in
     {
-      #mkSystem = mkSystem;
-      mkSystem = import lib/mksystem.nix;
-
-      HomeManagerModules = {
-          zsh-shell = import modules/home-manager/programs/zsh-shell;
-      };
+      # Wrapper for making sytems
+      mkSystem = import lib/mkSystem.nix;
     };
 }

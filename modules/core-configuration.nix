@@ -1,6 +1,10 @@
 {pkgs, ...}:
 
 {
+
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+
   programs = {
     zsh = {
       enable = true;
@@ -17,25 +21,6 @@ environment.systemPackages = with pkgs; [
       just
       nil
       nixd
-#      (if profiles.roles [ "developer" ] then [ git lvim ] else [ ])
-#      (if profiles.roles [ "kubernetes-admin" ] then [ 
-#        kubectl 
-#        kns 
-#        kubernetes-helm
-#        k9s
-#        helmfile
-#        (wrapHelm kubernetes-helm {
-#          plugins = with pkgs.kubernetes-helmPlugins; [
-#            helm-secrets
-#            helm-diff
-#            helm-s3
-#            helm-git
-#          ];
-#        })
-#      ] else [ ])
-
-      # terminal file managers
-      mc
 
       # archives
       zip
@@ -52,51 +37,14 @@ environment.systemPackages = with pkgs; [
       bat # a cat replacement
       tldr # man page replacement
       dust # disk utilization tool
-    
-      # networking tools
-      mtr # A network diagnostic tool
-      iperf3
-      dnsutils # `dig` + `nslookup`
-      ldns # replacement of `dig`, it provide the command `drill`
-      aria2 # A lightweight multi-protocol & multi-source command-line download utility
-      socat # replacement of openbsd-netcat
-      nmap # A utility for network discovery and security auditing
-      ipcalc # it is a calculator for the IPv4/v6 addresses
-
-      # misc
-      file
-      which
-      tree
-      gnused
-      gnutar
-      gawk
-      zstd
-      gnupg
-      fswatch
-
-      # nix related
-      #
-      # it provides the command `nom` works just like `nix`
-      # with more details log output
-      nix-output-monitor
-      nixd # nix language server
-
-      # productivity
-      glow # markdown previewer in terminal
       btop # replacement of htop/nmon
       iftop # network monitoring
-
-      # system call monitoring
       lsof # list open files
-
-      # system tools
-      pciutils # lspci
-      lnav
-      kns #Kubernetes namespace switcher
+      fswatch # watch file system events
+      git-extras # Some git extra command see https://github.com/tj/git-extras
 
       #Fun 
       cmatrix
-
     ];    
 
 }
