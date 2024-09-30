@@ -5,7 +5,7 @@ let
 in
 {
 
-  options.programs.bcb.utils.google-cloud-sdk = {
+  options.programs.nicoswan.utils.google-cloud-sdk = {
     enable = mkEnableOption "Enable google-cloud-sdk.";
   };
 

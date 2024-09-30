@@ -73,7 +73,7 @@ in
             KeepAlive = true;
             RunAtLoad = true;
             EnableTransactions = true;
-            Label = "com.bcb-group.development.bcb.nginx-service-proxy";
+            Label = "com.nicoswan.nginx-service-proxy";
             StandardErrorPath = "/etc/nginx/launchd.stderr.log";
             StandardOutPath = "/etc/nginx/launchd.stdout.log";
           };

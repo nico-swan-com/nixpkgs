@@ -4,7 +4,7 @@ let
   cfg = config.programs.nicoswan.utils.kubernetes;
   in
 {
-  options.programs.bcb.utils.kubernetes = {
+  options.programs.nicoswan.utils.kubernetes = {
     enable = mkEnableOption "Enable kubernetes utilities.";
     additional-utils = mkEnableOption "Install admin tools.";
     admin-utils = mkEnableOption "Install admin tools.";

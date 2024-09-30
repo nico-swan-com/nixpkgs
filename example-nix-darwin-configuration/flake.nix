@@ -1,5 +1,5 @@
 {
-  description = "Example flake to apply bcb-nixpkgs";
+  description = "Example flake to apply nicoswan nixpkgs";
 
   inputs = {
 
@@ -31,14 +31,14 @@
     , nixpkgs
     , nix-darwin
     , home-manager
-    , bcb
+    , nicoswan
     , ...
     } @inputs:
     let
       inherit (self) outputs;
       inherit (nixpkgs) lib;
 
-      mkSystem = bcb.mkSystem {
+      mkSystem = nicoswan.mkSystem {
         inherit nixpkgs outputs inputs lib nix-darwin home-manager;
       };
     in
@@ -47,7 +47,7 @@
         system = "aarch64-darwin";
         username = "nicoswan";
         fullname = "Nico Swan";
-        email = "nico@bcbgroup.io";
+        email = "hi@nicoswan.com";
         locale = "en_ZA.UTF-8";
         timezone = "Africa/Johannesburg";
         darwin = true;

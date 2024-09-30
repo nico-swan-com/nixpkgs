@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 with lib;
 let
-  cfg = config.services.bcb.database.postgres;
+  cfg = config.services.nicoswan.database.postgres;
 
   createUserScript = pkgs.writeScript "createUser" ''
     # Check if the role exists
@@ -29,8 +29,8 @@ let
 in
 {
 
-  options.services.bcb.database.postgres = {
-    enable = mkEnableOption "Enable BCB postgres database.";
+  options.services.nicoswan.database.postgres = {
+    enable = mkEnableOption "Enable Nico Swan postgres database.";
     package = mkOption {
       description = "The package to use for postgres.";
       type = types.package;

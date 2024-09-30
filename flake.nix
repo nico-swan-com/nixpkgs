@@ -12,6 +12,7 @@
   outputs = { self, nixpkgs, home-manager, nix-darwin } @inputs:
     {
       # Wrapper for making sytems
-      mkSystem = import lib/mkSystem.nix;
+      mkSystem = import ./lib/mkSystem.nix;
+      HomeManagerModules = import ./modules/home-manager;
     };
 }
