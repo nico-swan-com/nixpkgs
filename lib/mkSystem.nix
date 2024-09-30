@@ -10,6 +10,7 @@ name:
 , extraHMModules ? [ ]
 , extraModules ? [ ]
 , overlays ? [ ]
+, darwin ? false
 }:
 
 let
